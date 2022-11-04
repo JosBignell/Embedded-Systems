@@ -63,6 +63,10 @@ public:
     ComplexNumber operator+(ComplexNumber& u) {
         ComplexNumber result;
 
+        result = *this;
+        result = result + u;
+
+
         //TO BE DONE
 
         return result;
