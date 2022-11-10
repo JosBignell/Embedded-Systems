@@ -182,8 +182,8 @@ int main()
     while (blueButton == 0);
 
     sort4Bytes();    //Experiment 1 - uncomment and step into this function
-    // sortNBytes();    //Experiment 2 - uncomment and step into this function
-    // demoMap();       //Experiment 3 - uncomment and step into this function
+     sortNBytes();    //Experiment 2 - uncomment and step into this function
+     demoMap();       //Experiment 3 - uncomment and step into this function
 
 
 }
