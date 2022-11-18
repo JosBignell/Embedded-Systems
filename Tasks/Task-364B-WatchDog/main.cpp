@@ -7,6 +7,7 @@ using namespace uop_msb;
 
 void task1();
 void task2();
+void task3();
 
 typedef enum {NONE=0, THREAD1=0b01, THREAD2=0b10, ALL=0b11} THREADHEALTH; 
 uint8_t threadHealth = 0b00;
@@ -44,7 +45,7 @@ int main() {
     watchdog.start(TIMEOUT_MS);    
 
     t1.start(task1);
-    t2.start(task2);
+    t2.start(task3);
 
     //Wait for t1 and t2 to end (which they never do)
     t1.join();
@@ -60,20 +61,20 @@ void task1() {
     while(true) {
 
         while (sw1 == 0) {};            //BLOCKS via SPINNING
-        m1.lock();
+        //m1.lock();
         
         isAlive(THREAD1);
         ThisThread::sleep_for(50ms);    //Blocks in the WAITING state
 
-        m2.lock();      //For demo
+        //m2.lock();      //For demo
         while (sw1 == 1) {};            //BLOCKS via SPINNING
-        m2.unlock();    //For demo
+        //m2.unlock();    //For demo
 
         isAlive(THREAD1);
         red_led = !red_led;             
         ThisThread::sleep_for(50ms);    //Blocks in the WAITING state
 
-        m1.unlock();    //For demo
+        //m1.unlock();    //For demo
     }    
 }
 
@@ -86,20 +87,46 @@ void task2()
     while(true) {
 
         button2.waitForPress();         //Blocks in the WAITING state 
-        m2.lock();      //For demo
+        //m2.lock();      //For demo
 
         isAlive(THREAD2);
         ThisThread::sleep_for(50ms);    //Blocks in the WAITING state
 
-        m1.lock();
+        //m1.lock();
         button2.waitForRelease();       //Blocks in the WAITING state
-        m1.unlock();
+        //m1.unlock();
 
         isAlive(THREAD2);
         green_led = !green_led;         
         ThisThread::sleep_for(50ms);    //Blocks in the WAITING state
 
-        m2.unlock();
+        //m2.unlock();
+    }    
+}
+
+
+void task3() 
+{
+    DigitalOut yellow_led(TRAF_YEL1_PIN);
+    PushSwitch button3(BTN3_PIN);
+
+    while(true) {
+
+        button3.waitForPress();         //Blocks in the WAITING state 
+        //m2.lock();      //For demo
+
+        isAlive(THREAD2);
+        ThisThread::sleep_for(50ms);    //Blocks in the WAITING state
+
+        //m1.lock();
+        button3.waitForRelease();       //Blocks in the WAITING state
+        //m1.unlock();
+
+        isAlive(THREAD2);
+        yellow_led = !yellow_led;         
+        ThisThread::sleep_for(50ms);    //Blocks in the WAITING state
+
+        //m2.unlock();
     }    
 }
 

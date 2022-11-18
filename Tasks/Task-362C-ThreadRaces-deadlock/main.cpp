@@ -95,7 +95,7 @@ int main() {
         t2.start(countDown);
 
         //INDUCE A DEADLOCK
-        counterLock.lock(); // Add one extra lock (oops)
+        counterLock.trylock_for(5s); // Add one extra lock (oops)
         t1.join();  //Wait for t1 to complete
         t2.join();  //Wait for t2 to complete
         counterLock.unlock(); //Release again
@@ -105,7 +105,7 @@ int main() {
     backLight = 1;
     disp.locate(1, 0);
 
-    counterLock.lock(); //Pedantic, but setting an example :)
+    counterLock.trylock_for(5s); //Pedantic, but setting an example :)
     disp.printf("Counter=%Ld\n", counter);
 
     if (counter == 0) {
